@@ -51,7 +51,7 @@ const sidebar = (() => {
 
         sidebar.appendChild(addFixedElements());
 
-        body.appendChild(sidebar);
+        return sidebar
     }
 
     return {createSidebar};
