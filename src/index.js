@@ -1,10 +1,10 @@
 import { makeHeader } from "./header.js";
 import css from './styles.css'
-import {sidebar} from './sidebar.js';
+import {body} from './body.js'
 import {footer} from './footer.js'
 
 makeHeader.addElements();
 
-sidebar.createSidebar();
+body.appendElements();
 
 footer.insertFooterElements();
