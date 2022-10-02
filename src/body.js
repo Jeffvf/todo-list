@@ -20,7 +20,8 @@ const body = (() => {
     const getNewTaskBtn = () => {
         const div = document.createElement('div');
         const btn = button.getButton();
-
+        btn.id = 'btn-add-task';
+        
         div.appendChild(btn);
 
         return div;
