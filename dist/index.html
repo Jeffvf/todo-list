@@ -12,11 +12,51 @@
         <div id="myModal" class="modal">
 
             <!-- Modal content -->
-            <div class="modal-content">
-              <span class="close">&times;</span>
-              <p>Some text in the Modal..</p>
+            <div class='modal-content'>
+                <div>
+                    <p>Create new task:</p>
+                    <span class='close'>&times;</span>
+                </div>
+                <form>
+                    <div>
+                        <label for='title'>Title:</label>
+                        <input type='text' id='title' required>
+                    </div>
+                    <div>
+                        <label for='description'>Description:</label>
+                        <br>
+                        <textarea type='text' id='description' rows='4' cols='50'></textarea>
+                    </div>
+                    <div>
+                        <label for='date'>Due date:</label>
+                        <input type='date' id='date'>
+                    </div>
+
+                    <p>Priority:</p>
+                    <div>
+                        <input type='radio' id='priority' name='priority' value='Low' checked>
+                        <label for='priority'>Low</label>
+                    </div>
+
+                    <div>
+                        <input type='radio' id='priority' name='priority' value='Medium'>
+                        <label for='priority'>Medium</label>
+                    </div>
+
+                    <div>
+                        <input type='radio' id='priority' name='priority' value='High'>
+                        <label for='priority'>High</label>
+                    </div>
+
+                    <div>
+                        <input type='radio' id='priority' name='priority' value='Urgent'>
+                        <label for='priority'>Urgent</label>
+                    </div>
+
+                    <button id='create-btn' type='submit'>Create</button>
+                </form>
             </div>
-          
+        
         </div>
     </main>
     <footer></footer>
