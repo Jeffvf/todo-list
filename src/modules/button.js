@@ -1,5 +1,6 @@
 const button = (() => {
     const modal = document.getElementById("myModal");
+    
     const createButton = () => {
         const btn = document.createElement('button');
         btn.textContent = '+';
@@ -8,7 +9,7 @@ const button = (() => {
     }
 
     const addFunction = (btn) => {
-        btn.addEventListener('click', () =>{
+        btn.addEventListener('click', () => {
             modal.style.display = "block";
         });
     }
