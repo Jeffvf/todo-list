@@ -11,10 +11,41 @@ const body = (() => {
         return newSidebar;
     }
 
-    const getTasks = (projectName) => {
-        const task = document.createElement('div');
+    const getTasks = (project) => {
+        const taskCard = document.createElement('div');
+        taskCard.id = 'display-tasks';
 
-        return task;
+        if(project){
+            for(let task of project.taskList){
+                const div = document.createElement('div');
+                div.classList.add('card');
+
+                const title = document.createElement('h1');
+                title.textContent = task.title;
+
+                const description = document.createElement('p');
+                description.textContent = task.description;
+
+                const dueDate = document.createElement('p');
+                dueDate.textContent = task.dueDate;
+
+                const priority = document.createElement('p');
+                priority.textContent = task.priority;
+
+                if(task.priority == 'Urgent'){
+                    priority.style = 'color:red';
+                }
+
+                div.appendChild(title);
+                div.appendChild(description);
+                div.appendChild(dueDate);
+                div.appendChild(priority);
+
+                taskCard.appendChild(div);
+            }
+        }
+
+        return taskCard;
     }
 
     const getNewTaskBtn = () => {
@@ -27,11 +58,11 @@ const body = (() => {
         return div;
     }
 
-    const appendElements = () => {
+    const appendElements = (project) => {
         const elements = [];
 
         elements.push(getSidebar());
-        elements.push(getTasks());
+        elements.push(getTasks(project));
         elements.push(getNewTaskBtn());
 
         for(let i = 0; i < elements.length; i++){
@@ -39,7 +70,7 @@ const body = (() => {
         }
     }
 
-    return {appendElements};
+    return {appendElements, getTasks};
 })();
 
 export {body};
