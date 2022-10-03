@@ -17,7 +17,7 @@ const forms = (() => {
         }
 
         btn.onclick = function(){
-            const title = document.getElementById('title').textContent;
+            const title = document.getElementById('title').value;
             const description = document.getElementById('description').value;
             const date = document.getElementById('date').value;
             const priorityList = document.getElementsByName('priority');
@@ -31,8 +31,9 @@ const forms = (() => {
             }
             
             proj.add(title, description, date, priority);
+            localStorage.setItem('currentProject', JSON.stringify(proj));
             
-            body.appendElements(proj);
+            body.appendElements();
         }
     }
 

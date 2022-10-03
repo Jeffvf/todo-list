@@ -60,7 +60,14 @@ const body = (() => {
         return div;
     }
 
-    const appendElements = (project) => {
+    const appendElements = () => {
+        const test = JSON.parse(localStorage.getItem('currentProject') || "[]");
+        
+        
+        const project = new Project(test['name']);
+        
+        project.taskList = test.taskList;
+
         const elements = [];
         if(document.getElementById('sidebar')){
             document.getElementById('sidebar').remove();

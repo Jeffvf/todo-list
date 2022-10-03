@@ -3,9 +3,10 @@ function Task(title, description, dueDate, priority){
 }
 
 function createTask (title, description, dueDate, priority){
-    console.log(this.taskList);
     const newTask = new Task(title, description, dueDate, priority);
     this.taskList.push(newTask);
+
+    localStorage.setItem('currentProject', JSON.stringify(this));
 }
 
 function editTask (id, field, value){
@@ -34,6 +35,8 @@ function Project(name){
 function createProject(name){
     const proj = new Project(name);
 
+    localStorage.setItem('currentProject', JSON.stringify(proj));
+
     this.projectList.push(proj);
 
     return this.projectList[this.projectList.length-1];
@@ -48,4 +51,4 @@ function Projects(){
     return {add, getAll, projectList};
 }
 
-export {Projects};
+export {Projects, Project};
