@@ -31,4 +31,21 @@ function Project(name){
     return {name, taskList, add, edit, remove, getAll};
 }
 
-export {Project};
+function createProject(name){
+    const proj = new Project(name);
+
+    this.projectList.push(proj);
+
+    return this.projectList[this.projectList.length-1];
+}
+
+function Projects(){
+    const projectList = [];
+
+    const add = createProject;
+    const getAll = () => {return this.projectList;}
+
+    return {add, getAll, projectList};
+}
+
+export {Projects};
