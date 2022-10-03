@@ -65,10 +65,40 @@ span {
 /* Modal Content/Box */
 .modal-content {
     background-color: #fefefe;
-    margin: 15% auto; /* 15% from the top and centered */
-    padding: 20px;
+    margin: 10% auto; /* 10% from the top and centered */
     border: 1px solid #888;
-    width: 80%; /* Could be more or less, depending on screen size */
+    width: 50%; /* Could be more or less, depending on screen size */
+    border-radius: 10px;
+    border-style: none;
+}
+
+.modal-content > *{
+    padding: 15px;
+    border-radius: 10px;
+    font-weight: bold;
+    font-size: 20px;
+}
+
+.modal-content > div{
+    background-color: var(--gray);
+    color: white;
+    display: flex;
+    align-content: space-between;
+    justify-content: space-between;
+}
+
+input, textarea{
+    border-style: solid;
+    border-radius: 7px;
+}
+
+#create-btn{
+    background-color: var(--gray);
+    color: white;
+    padding: 15px;
+    font-weight: bold;
+    border-radius: 5px;
+    font-size: 20px;
 }
 
 /* The Close Button */
@@ -81,7 +111,7 @@ span {
 
 .close:hover,
 .close:focus {
-    color: black;
+    color: white;
     text-decoration: none;
     cursor: pointer;
 }
@@ -100,10 +130,33 @@ span {
     color: white;
 }
 
-#btn-add-task:hover{
+button:hover{
     cursor: pointer;
 }
 
-#btn-add-task:active {
+button:active {
     transform: translateY(4px);
-  }
+}
+
+form{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-content: center;
+    justify-content: center;
+}
+
+#display-tasks{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    grid-auto-flow: row;
+    padding: 50px;
+    gap: 15px;
+}
+
+.card{
+    padding: 15px;
+    border-style: solid;
+    border-color: black;
+}
