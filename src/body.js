@@ -50,6 +50,8 @@ const body = (() => {
 
     const getNewTaskBtn = () => {
         const div = document.createElement('div');
+        div.id = 'btn-div';
+
         const btn = button.getButton();
         btn.id = 'btn-add-task';
         
@@ -60,7 +62,12 @@ const body = (() => {
 
     const appendElements = (project) => {
         const elements = [];
-
+        if(document.getElementById('sidebar')){
+            document.getElementById('sidebar').remove();
+            document.getElementById('display-tasks').remove();
+            document.getElementById('btn-div').remove();
+        }
+        
         elements.push(getSidebar());
         elements.push(getTasks(project));
         elements.push(getNewTaskBtn());
