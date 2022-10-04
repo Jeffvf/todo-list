@@ -7,6 +7,17 @@ function createTask (title, description, dueDate, priority){
     this.taskList.push(newTask);
 
     localStorage.setItem('currentProject', JSON.stringify(this));
+
+    const projects = JSON.parse(localStorage.getItem('projects'));
+    for(let project of projects){
+        // console.log(project)
+        console.log(this.name, this.taskList)
+        if(project.name == this.name){
+            project['taskList'] = this.taskList;
+        }
+    }
+
+    localStorage.setItem('projects', JSON.stringify(projects))
 }
 
 function editTask (id, field, value){
