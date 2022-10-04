@@ -48,7 +48,7 @@ const body = (() => {
         return taskCard;
     }
 
-    const getNewTaskBtn = () => {
+    const setNewTaskBtn = () => {
         const div = document.createElement('div');
         div.id = 'btn-div';
 
@@ -77,7 +77,7 @@ const body = (() => {
         
         elements.push(getSidebar());
         elements.push(getTasks(project));
-        elements.push(getNewTaskBtn());
+        elements.push(setNewTaskBtn());
 
         for(let i = 0; i < elements.length; i++){
             mainBody.appendChild(elements[i]);
