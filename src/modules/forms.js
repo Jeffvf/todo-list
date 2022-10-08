@@ -1,11 +1,13 @@
 import {body} from '/home/jefferson/top/todo-list/src/body.js'
+import {Project} from './project.js'
 
 const forms = (() => {
     const modal = document.getElementById("myModal");
     const span = document.getElementsByClassName("close")[0];
     const btn = document.getElementById("create-btn");
 
-    const addClickEvents = (proj) => {
+    const addClickEvents = () => {
+        
         span.onclick = function() {
             modal.style.display = "none";
         }
@@ -15,8 +17,11 @@ const forms = (() => {
                 modal.style.display = "none";
             }
         }
-
+        
         btn.onclick = function(){
+            const currentProject = JSON.parse(localStorage.getItem('currentProject') || "[]");
+            const proj = new Project(currentProject['name']);
+
             const title = document.getElementById('title').value;
             const description = document.getElementById('description').value;
             const date = document.getElementById('date').value;
