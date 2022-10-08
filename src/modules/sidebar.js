@@ -1,5 +1,6 @@
+import { button } from './button';
 import {body} from '/home/jefferson/top/todo-list/src/body.js'
-import {Project} from '/home/jefferson/top/todo-list/src/modules/project.js'
+import {Project, getLocalProjects} from '/home/jefferson/top/todo-list/src/modules/project.js'
 
 const sidebar = (() => {
 
@@ -11,72 +12,129 @@ const sidebar = (() => {
         return sidebar
     }
 
-    const setListener = (tab) => {
-        const localProjects = JSON.parse(localStorage.getItem('projects'));
-        let projObject;
-        for(let project of localProjects){
-            if(project.name == tab.textContent){
-                projObject = project;
-                break;
+    const setListener = (tabs) => {
+        tabs.forEach(tab => {
+            tab[0].addEventListener('click', () => {
+                localStorage.setItem('currentProject', JSON.stringify(tab[1]));
+                body.appendElements();
+            })
+        })
+
+        return tabs;
+    }
+
+    const createCancelBtn = (btn, input ,newProjectBtn) => {
+        const cancel = document.createElement('button');
+
+        cancel.textContent = 'Cancel';
+        cancel.style.backgroundColor = 'Red'
+        cancel.style.color = 'White';
+        cancel.style.display = 'None';
+
+        cancel.addEventListener('click', () => {
+            btn.style.display = 'Block';
+            input.style.display = 'None';
+            newProjectBtn.style.display = 'None';
+            cancel.style.display = 'None';
+        })
+
+        return cancel;
+    }
+
+    const createConfirmBtn = () => {
+        const btn = document.createElement('button');
+        const allProjects = getLocalProjects();
+        
+        btn.textContent = 'Add';
+        btn.type = 'submit';
+        btn.style.backgroundColor = 'Green';
+        btn.style.color = 'white';
+        
+        btn.addEventListener('click', () => {
+            const input = document.getElementById('new-project-input');
+
+            const title = input.value;
+            if(title != ''){
+                const newProject = new Project(title);
+
+                allProjects.push(newProject);
+
+                localStorage.setItem('projects', JSON.stringify(allProjects));
+                body.appendElements();
             }
-        }
-
-        const proj = new Project(projObject.name)
-        proj.taskList = projObject.taskList;
-
-        tab.addEventListener('click', () => {
-            localStorage.setItem('currentProject', JSON.stringify(proj));
-            body.appendElements();
         });
 
-        return tab;
+        btn.style.display = 'None';
+
+        return btn;
     }
 
-    const addFixedElements = () => {
-        const el = document.createElement('div');
+    const createProject = () => {
+        const projectsDiv = document.createElement('div');
 
-        let inbox = document.createElement('span');
-        inbox.textContent = 'Inbox';
-        inbox = setListener(inbox);
+        projectsDiv.id = 'create-new-project';
+        
+        const btn = document.createElement('div');
+        
+        const input = document.createElement('input');
+        input.style.display = 'None';
+        input.id = 'new-project-input';
+        
+        
+        btn.textContent = '+ New project';
 
-        let todayTasks = document.createElement('span');
-        todayTasks.textContent = 'Today';
-        todayTasks = setListener(todayTasks);
+        const newProjectBtn = createConfirmBtn();
+        const cancelBtn = createCancelBtn(btn, input, newProjectBtn);
+        
+        btn.addEventListener('click', () => {
+            btn.style.display = 'None';
+            input.style.display = 'Block';
+            cancelBtn.style.display = 'Block';
+            newProjectBtn.style.display = 'Block';
+        });
+        
+        projectsDiv.appendChild(input);
+        projectsDiv.appendChild(cancelBtn);
+        projectsDiv.appendChild(newProjectBtn);
+        projectsDiv.appendChild(btn);
 
-        let upcomingTasks = document.createElement('span');
-        upcomingTasks.textContent = 'Upcoming';
-        upcomingTasks = setListener(upcomingTasks);
+        return projectsDiv;
 
-        el.appendChild(inbox);
-        el.appendChild(todayTasks);
-        el.appendChild(upcomingTasks);
-
-        return el;
     }
 
-    const addProjects  = (allProjects) => {
+    const addProjects  = () => {
+        const allProjects = getLocalProjects();
+        let tabs = []
+        console.log(allProjects)
+
         if(allProjects.length == 0){
             return;
         }
         
         const projects = document.createElement('div');
 
-        for(project of allProjects){
+        for(let project of allProjects){
             const proj = document.createElement('span');
 
-            proj.textContent = project.title;
+            proj.textContent = project.name;
 
-            projects.appendChild(proj);            
+            tabs.push([proj, project]);
         }
+        
+        const projectTab = setListener(tabs);
+
+        projectTab.forEach(project => {
+            projects.appendChild(project[0]);            
+        })
 
         return projects;
     }
 
     const createSidebar = () => {
-        const sidebar = createSidebarElement()
+        const sidebar = createSidebarElement();
 
-        sidebar.appendChild(addFixedElements());
-
+        sidebar.appendChild(addProjects());
+        sidebar.appendChild(createProject());
         return sidebar
     }
 
