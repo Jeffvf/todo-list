@@ -22,23 +22,28 @@ const forms = (() => {
             const currentProject = JSON.parse(localStorage.getItem('currentProject') || "[]");
             const proj = new Project(currentProject['name']);
 
+            proj.taskList = currentProject.taskList;
+            
             const title = document.getElementById('title').value;
             const description = document.getElementById('description').value;
             const date = document.getElementById('date').value;
             const priorityList = document.getElementsByName('priority');
-            
-            let priority;
-            for(let i = 0; i < priorityList.length; i++){
-                if(priorityList[i].checked){
-                    priority = priorityList[i].value;
-                    break;
+
+            if(title != '' && date != ''){
+                
+                let priority;
+                for(let i = 0; i < priorityList.length; i++){
+                    if(priorityList[i].checked){
+                        priority = priorityList[i].value;
+                        break;
+                    }
                 }
+                
+                proj.add(title, description, date, priority);
+                localStorage.setItem('currentProject', JSON.stringify(proj));
+                
+                body.appendElements();
             }
-            
-            proj.add(title, description, date, priority);
-            localStorage.setItem('currentProject', JSON.stringify(proj));
-            
-            body.appendElements();
         }
     }
 
