@@ -10,8 +10,6 @@ function createTask (title, description, dueDate, priority){
 
     const projects = JSON.parse(localStorage.getItem('projects'));
     for(let project of projects){
-        // console.log(project)
-        console.log(this.name, this.taskList)
         if(project.name == this.name){
             project['taskList'] = this.taskList;
         }
@@ -62,4 +60,13 @@ function Projects(){
     return {add, getAll, projectList};
 }
 
-export {Projects, Project};
+function getLocalProjects(){
+    const projects = new Projects();
+    const localProjects = JSON.parse(localStorage.getItem('projects'));
+
+    projects.projectList = localProjects;
+
+    return localProjects;
+}
+
+export {Projects, Project, getLocalProjects};
