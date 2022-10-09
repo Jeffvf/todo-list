@@ -1,4 +1,3 @@
-import { button } from './button';
 import {body} from '/home/jefferson/top/todo-list/src/body.js'
 import {Project, getLocalProjects} from '/home/jefferson/top/todo-list/src/modules/project.js'
 
@@ -94,8 +93,8 @@ const sidebar = (() => {
         });
         
         projectsDiv.appendChild(input);
-        projectsDiv.appendChild(cancelBtn);
         projectsDiv.appendChild(newProjectBtn);
+        projectsDiv.appendChild(cancelBtn);
         projectsDiv.appendChild(btn);
 
         return projectsDiv;
@@ -105,7 +104,6 @@ const sidebar = (() => {
     const addProjects  = () => {
         const allProjects = getLocalProjects();
         let tabs = []
-        console.log(allProjects)
 
         if(allProjects.length == 0){
             return;
