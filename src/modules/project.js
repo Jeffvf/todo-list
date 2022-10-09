@@ -1,3 +1,6 @@
+import {parseISO, isToday, parse} from 'date-fns'
+import {body} from '/home/jefferson/top/todo-list/src/body.js'
+
 function Task(title, description, dueDate, priority){
     return {title, description, dueDate, priority};
 }
@@ -69,4 +72,32 @@ function getLocalProjects(){
     return localProjects;
 }
 
-export {Projects, Project, getLocalProjects};
+function loadTodayTasks(){
+    const localProjects = getLocalProjects();
+    const todayTasks = [];
+    let todayProject;
+
+    for(let project of localProjects){
+        if(project.name != 'Today'){
+            for(let task of project.taskList){
+                const date = parseISO(task.dueDate, 'yyyy-MM-dd', new Date());
+
+                if(isToday(date)){
+                    todayTasks.push(task);
+                }
+            }
+        }
+        else{
+            todayProject = project;
+            localProjects.splice(localProjects.indexOf(todayProject), 1);
+        }
+    }
+
+    todayProject.taskList = todayTasks;
+
+    localProjects.splice(2, 0, todayProject);
+
+    localStorage.setItem('projects', JSON.stringify(localProjects));
+}
+
+export {Projects, Project, getLocalProjects, loadTodayTasks};
