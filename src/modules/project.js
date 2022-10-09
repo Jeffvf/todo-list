@@ -1,4 +1,4 @@
-import {parseISO, isToday, parse} from 'date-fns'
+import {parseISO, isToday, differenceInDays} from 'date-fns'
 import {body} from '/home/jefferson/top/todo-list/src/body.js'
 
 function Task(title, description, dueDate, priority){
@@ -100,4 +100,33 @@ function loadTodayTasks(){
     localStorage.setItem('projects', JSON.stringify(localProjects));
 }
 
-export {Projects, Project, getLocalProjects, loadTodayTasks};
+function loadUpcomingTasks(){
+    const localProjects = getLocalProjects();
+    const upcomingTasks = [];
+    let upcomingTasksProject;
+
+    for(let project of localProjects){
+        if(project.name != 'Upcoming'){
+            for(let task of project.taskList){
+                const date = parseISO(task.dueDate, 'yyyy-MM-dd', new Date());
+                const remainingDays = differenceInDays(date, new Date());
+
+                if(remainingDays >0 && remainingDays <= 7){
+                    upcomingTasks.push(task);
+                }
+            }
+        }
+        else{
+            upcomingTasksProject = project;
+            localProjects.splice(localProjects.indexOf(upcomingTasksProject), 1);
+        }
+    }
+
+    upcomingTasksProject.taskList = upcomingTasks;
+
+    localProjects.splice(1, 0, upcomingTasksProject);
+
+    localStorage.setItem('projects', JSON.stringify(localProjects));
+}
+
+export {Projects, Project, getLocalProjects, loadTodayTasks, loadUpcomingTasks};
