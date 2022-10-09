@@ -1,6 +1,7 @@
 import {sidebar} from './modules/sidebar.js';
 import {button} from './modules/button.js'
 import {Project} from './modules/project.js'
+import {format} from 'date-fns'
 
 const body = (() => {
     const mainBody = document.getElementsByTagName('main')[0];
@@ -23,22 +24,28 @@ const body = (() => {
                 const title = document.createElement('h1');
                 title.textContent = task.title;
 
+                const elements = document.createElement('div');
+
                 const description = document.createElement('p');
-                description.textContent = task.description;
+                description.textContent = 'Description: ' + task.description;
 
                 const dueDate = document.createElement('p');
-                dueDate.textContent = task.dueDate;
+                const date = format(new Date(task.dueDate), 'MM/dd/yyyy');
+                dueDate.textContent = 'Due date: ' + date;
 
-                const priority = document.createElement('p');
-                priority.textContent = task.priority;
+                elements.appendChild(description);
+                elements.appendChild(dueDate);
+
+                const priority = document.createElement('h2');
+                priority.textContent = 'Priority: ' + task.priority;
+                priority.style = 'color:white';
 
                 if(task.priority == 'Urgent'){
                     priority.style = 'color:red';
                 }
 
                 div.appendChild(title);
-                div.appendChild(description);
-                div.appendChild(dueDate);
+                div.appendChild(elements);
                 div.appendChild(priority);
 
                 taskCard.appendChild(div);

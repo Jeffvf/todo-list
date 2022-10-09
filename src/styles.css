@@ -163,9 +163,22 @@ form{
 }
 
 .card{
-    padding: 15px;
     border-style: solid;
     border-color: black;
+    border-radius: 8px;
+    display: grid;
+    grid-template-rows: 1fr 3fr 1fr;
+}
+
+.card > div{
+    padding: 20px;
+    font-size: 20px;
+}
+
+.card > h1, h2{
+    padding: 15px;
+    background-color: var(--gray);
+    color: white;
 }
 
 #create-new-project{
