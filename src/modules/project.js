@@ -1,5 +1,4 @@
 import {parseISO, isToday, differenceInDays} from 'date-fns'
-import {body} from '/home/jefferson/top/todo-list/src/body.js'
 
 function Task(title, description, dueDate, priority){
     return {title, description, dueDate, priority};

@@ -3,12 +3,12 @@ import css from './styles.css'
 import {body} from './body.js'
 import {footer} from './footer.js'
 import {forms} from './modules/forms.js'
-import {project} from './modules/project.js'
+import {Projects, Project, loadTodayTasks, loadUpcomingTasks} from './modules/project.js'
 
 makeHeader.addElements();
 
 if(!localStorage.getItem('projects')){
-    const projects = new project.Projects();
+    const projects = new Projects();
     
     const proj = projects.add('Inbox');
     projects.add('Today');
@@ -20,12 +20,12 @@ if(!localStorage.getItem('projects')){
 
 const currentProject = JSON.parse(localStorage.getItem('currentProject') || "[]");
 
-const newProj = new project.Project(currentProject['name']);
+const newProj = new Project(currentProject['name']);
 
 newProj.taskList = currentProject.taskList;
 
-project.loadTodayTasks();
-project.loadUpcomingTasks();
+loadTodayTasks();
+loadUpcomingTasks();
 
 forms.addClickEvents();
 body.appendElements();
