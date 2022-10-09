@@ -21,8 +21,27 @@ const body = (() => {
                 const div = document.createElement('div');
                 div.classList.add('card');
 
+                const titleDiv = document.createElement('div');
+                titleDiv.classList.add('taskTitle');
+
                 const title = document.createElement('h1');
                 title.textContent = task.title;
+
+                const close = document.createElement('span');
+                close.textContent = 'X';
+                close.classList.add('close');
+
+                close.addEventListener('click', () => {
+                    const projectTasks = project.taskList;
+                    projectTasks.splice(projectTasks.indexOf(task), 1);
+                    
+                    project.taskList = projectTasks;
+                    localStorage.setItem('currentProject', JSON.stringify(project));
+                    body.refreshElements();
+                })
+
+                titleDiv.appendChild(title);
+                titleDiv.appendChild(close);
 
                 const elements = document.createElement('div');
 
@@ -44,7 +63,7 @@ const body = (() => {
                     priority.style = 'color:red';
                 }
 
-                div.appendChild(title);
+                div.appendChild(titleDiv);
                 div.appendChild(elements);
                 div.appendChild(priority);
 
@@ -67,7 +86,7 @@ const body = (() => {
         return div;
     }
 
-    const appendElements = () => {
+    const refreshElements = () => {
         const test = JSON.parse(localStorage.getItem('currentProject') || "[]");
         
         
@@ -91,7 +110,7 @@ const body = (() => {
         }
     }
 
-    return {appendElements, getTasks};
+    return {refreshElements, getTasks};
 })();
 
 export {body};
