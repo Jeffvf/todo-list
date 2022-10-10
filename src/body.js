@@ -52,7 +52,7 @@ const body = (() => {
                     
                     localStorage.setItem('currentProject', JSON.stringify(project));
                     localStorage.setItem('projects', JSON.stringify(localProjects));
-                    
+
                     body.refreshElements();
                 })
 
@@ -90,16 +90,14 @@ const body = (() => {
         return taskCard;
     }
 
-    const setNewTaskBtn = () => {
-        const div = document.createElement('div');
-        div.id = 'btn-div';
-
+    const setNewTaskBtn = (btnDiv) => {
+        
         const btn = button.getButton();
         btn.id = 'btn-add-task';
         
-        div.appendChild(btn);
-
-        return div;
+        btnDiv.appendChild(btn);
+        
+        return btnDiv;
     }
 
     const refreshElements = () => {
@@ -108,7 +106,7 @@ const body = (() => {
         const project = new Project(currentProject['name']);
         
         project.taskList = currentProject.taskList;
-
+        
         const elements = [];
         if(document.getElementById('sidebar')){
             document.getElementById('sidebar').remove();
@@ -118,10 +116,19 @@ const body = (() => {
         
         loadTodayTasks();
         loadUpcomingTasks();
-
+        
         elements.push(getSidebar());
         elements.push(getTasks(project));
-        elements.push(setNewTaskBtn());
+
+        const btnDiv = document.createElement('div');
+        btnDiv.id = 'btn-div';
+
+        if(currentProject.name != 'Today' && currentProject.name != 'Upcoming'){
+            elements.push(setNewTaskBtn(btnDiv));
+        }
+        else{
+            elements.push(btnDiv);
+        }
 
         for(let i = 0; i < elements.length; i++){
             mainBody.appendChild(elements[i]);
