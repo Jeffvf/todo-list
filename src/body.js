@@ -1,6 +1,6 @@
 import {sidebar} from './modules/sidebar.js';
 import {button} from './modules/button.js'
-import {Project} from './modules/project.js'
+import {Project, loadTodayTasks, loadUpcomingTasks, getLocalProjects} from './modules/project.js'
 import {format} from 'date-fns'
 
 const body = (() => {
@@ -13,30 +13,46 @@ const body = (() => {
     }
 
     const getTasks = (project) => {
+        const localProjects = getLocalProjects();
         const taskCard = document.createElement('div');
         taskCard.id = 'display-tasks';
-
+        const projectTasks = project.taskList;
+        
         if(project){
             for(let task of project.taskList){
                 const div = document.createElement('div');
                 div.classList.add('card');
-
+                
                 const titleDiv = document.createElement('div');
                 titleDiv.classList.add('taskTitle');
 
                 const title = document.createElement('h1');
                 title.textContent = task.title;
-
+                
                 const close = document.createElement('span');
                 close.textContent = 'X';
                 close.classList.add('close');
-
+                
+                
                 close.addEventListener('click', () => {
-                    const projectTasks = project.taskList;
+                    let currentProjectIndex;
+                    for(let i = 0; i < localProjects.length; i++){
+                        if(localProjects[i].name == project.name){
+                            currentProjectIndex = i;
+                            break;
+                        }
+                    }
+                    
                     projectTasks.splice(projectTasks.indexOf(task), 1);
                     
                     project.taskList = projectTasks;
+
+                    localProjects.splice(currentProjectIndex, 1);
+                    localProjects.splice(currentProjectIndex, 0, project);
+                    
                     localStorage.setItem('currentProject', JSON.stringify(project));
+                    localStorage.setItem('projects', JSON.stringify(localProjects));
+                    
                     body.refreshElements();
                 })
 
@@ -87,12 +103,11 @@ const body = (() => {
     }
 
     const refreshElements = () => {
-        const test = JSON.parse(localStorage.getItem('currentProject') || "[]");
+        const currentProject = JSON.parse(localStorage.getItem('currentProject') || "[]");
         
+        const project = new Project(currentProject['name']);
         
-        const project = new Project(test['name']);
-        
-        project.taskList = test.taskList;
+        project.taskList = currentProject.taskList;
 
         const elements = [];
         if(document.getElementById('sidebar')){
@@ -101,6 +116,9 @@ const body = (() => {
             document.getElementById('btn-div').remove();
         }
         
+        loadTodayTasks();
+        loadUpcomingTasks();
+
         elements.push(getSidebar());
         elements.push(getTasks(project));
         elements.push(setNewTaskBtn());
@@ -108,6 +126,7 @@ const body = (() => {
         for(let i = 0; i < elements.length; i++){
             mainBody.appendChild(elements[i]);
         }
+
     }
 
     return {refreshElements, getTasks};
