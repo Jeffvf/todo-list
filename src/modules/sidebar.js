@@ -15,7 +15,7 @@ const sidebar = (() => {
         tabs.forEach(tab => {
             tab[0].addEventListener('click', () => {
                 localStorage.setItem('currentProject', JSON.stringify(tab[1]));
-                body.appendElements();
+                body.refreshElements();
             })
         })
 
@@ -59,7 +59,7 @@ const sidebar = (() => {
                 allProjects.push(newProject);
 
                 localStorage.setItem('projects', JSON.stringify(allProjects));
-                body.appendElements();
+                body.refreshElements();
             }
         });
 

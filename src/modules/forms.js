@@ -42,7 +42,7 @@ const forms = (() => {
                 proj.add(title, description, date, priority);
                 localStorage.setItem('currentProject', JSON.stringify(proj));
                 
-                body.appendElements();
+                body.refreshElements();
             }
         }
     }

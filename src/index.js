@@ -3,7 +3,7 @@ import css from './styles.css'
 import {body} from './body.js'
 import {footer} from './footer.js'
 import {forms} from './modules/forms.js'
-import {Projects, Project, loadTodayTasks, loadUpcomingTasks} from './modules/project.js'
+import {Projects, Project} from './modules/project.js'
 
 makeHeader.addElements();
 
@@ -24,10 +24,7 @@ const newProj = new Project(currentProject['name']);
 
 newProj.taskList = currentProject.taskList;
 
-loadTodayTasks();
-loadUpcomingTasks();
-
 forms.addClickEvents();
-body.appendElements();
+body.refreshElements();
 
 footer.insertFooterElements();
