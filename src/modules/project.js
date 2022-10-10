@@ -1,4 +1,5 @@
 import {parseISO, isToday, differenceInDays} from 'date-fns'
+import {body} from '/home/jefferson/top/todo-list/src/body.js'
 
 function Task(title, description, dueDate, priority){
     return {title, description, dueDate, priority};
@@ -18,6 +19,7 @@ function createTask (title, description, dueDate, priority){
     }
 
     localStorage.setItem('projects', JSON.stringify(projects))
+    body.refreshElements();
 }
 
 function editTask (id, field, value){
@@ -88,10 +90,10 @@ function loadTodayTasks(){
         }
         else{
             todayProject = project;
-            localProjects.splice(localProjects.indexOf(todayProject), 1);
         }
     }
-
+    
+    localProjects.splice(localProjects.indexOf(todayProject), 1);
     todayProject.taskList = todayTasks;
 
     localProjects.splice(2, 0, todayProject);
